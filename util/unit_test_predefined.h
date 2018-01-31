@@ -2,6 +2,9 @@
 #define PREDEFINED_H
 
 #include <string.h>
+#include <Windows.h>
+
+#define bzero ZeroMemory
 
 namespace bpt {
 

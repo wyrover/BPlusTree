@@ -1,6 +1,8 @@
 BPlusTree
 ==========
 
+修改为 windows 下可使用的, premake 生成 vs2013 工程 
+
 This is my simple implementation of B+ Tree, the keys, values, and nodes are of
 fixed size, and you need to recompile when changing some important parameters.
 

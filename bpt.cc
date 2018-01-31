@@ -352,7 +352,7 @@ void bplus_tree::remove_from_index(off_t offset, internal_node_t &node,
 bool bplus_tree::borrow_key(bool from_right, internal_node_t &borrower,
                             off_t offset)
 {
-    typedef typename internal_node_t::child_t child_t;
+    //typedef typename internal_node_t::child_t child_t;
 
     off_t lender_off = from_right ? borrower.next : borrower.prev;
     internal_node_t lender;
@@ -360,7 +360,7 @@ bool bplus_tree::borrow_key(bool from_right, internal_node_t &borrower,
 
     assert(lender.n >= meta.order / 2);
     if (lender.n != meta.order / 2) {
-        child_t where_to_lend, where_to_put;
+		internal_node_t::child_t where_to_lend, where_to_put;
 
         internal_node_t parent;
 
@@ -370,7 +370,7 @@ bool bplus_tree::borrow_key(bool from_right, internal_node_t &borrower,
             where_to_put = end(borrower);
 
             map(&parent, borrower.parent);
-            child_t where = lower_bound(begin(parent), end(parent) - 1,
+			internal_node_t::child_t where = lower_bound(begin(parent), end(parent) - 1,
                                         (end(borrower) -1)->key);
             where->key = where_to_lend->key;
             unmap(&parent, borrower.parent);
@@ -379,7 +379,7 @@ bool bplus_tree::borrow_key(bool from_right, internal_node_t &borrower,
             where_to_put = begin(borrower);
 
             map(&parent, lender.parent);
-            child_t where = find(parent, begin(lender)->key);
+			internal_node_t::child_t where = find(parent, begin(lender)->key);
             where_to_put->key = where->key;
             where->key = (where_to_lend - 1)->key;
             unmap(&parent, lender.parent);
@@ -409,17 +409,19 @@ bool bplus_tree::borrow_key(bool from_right, leaf_node_t &borrower)
 
     assert(lender.n >= meta.order / 2);
     if (lender.n != meta.order / 2) {
-        typename leaf_node_t::child_t where_to_lend, where_to_put;
+        //typename leaf_node_t::child_t where_to_lend, where_to_put;
+
+		leaf_node_t::child_t where_to_lend, where_to_put;
 
         // decide offset and update parent's index key
         if (from_right) {
-            where_to_lend = begin(lender);
-            where_to_put = end(borrower);
+			where_to_lend = begin(lender);
+			where_to_put = end(borrower);
             change_parent_child(borrower.parent, begin(borrower)->key,
                                 lender.children[1].key);
         } else {
-            where_to_lend = end(lender) - 1;
-            where_to_put = begin(borrower);
+			where_to_lend = end(lender) - 1;
+			where_to_put = begin(borrower);
             change_parent_child(lender.parent, begin(lender)->key,
                                 where_to_lend->key);
         }

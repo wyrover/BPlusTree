@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <sys/types.h>
 
 #ifndef UNIT_TEST
 #include "predefined.h"
